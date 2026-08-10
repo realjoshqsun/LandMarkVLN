@@ -29,7 +29,8 @@ make reproduce-analysis
 ```
 
 These commands verify the frozen files, recompute the common action diagnostic
-and registered A-by-V point estimates, and regenerate the README summary:
+and registered A-by-V and model-native causal point estimates, and regenerate
+the README summary:
 
 ![Common action diagnostic by model](assets/readme/model_overview.svg)
 
@@ -51,7 +52,8 @@ identity-bearing paths or credentials, and records the archive checksum.
 
 - Analysis-ready frozen outputs for all eight models.
 - Deterministic integrity and cross-model membership checks.
-- CPU-only reconstruction of registered A-by-V point estimates.
+- CPU-only reconstruction of registered A-by-V and model-native causal point
+  estimates.
 - Reproducible README visualizations generated from frozen outputs.
 - An anonymized supplementary-archive builder.
 

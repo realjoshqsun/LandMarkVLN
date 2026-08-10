@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "rows": [
+    {"model": "onevla", "scope": "C", "n": 937, "mean_effect": 0.0322, "mean_decimals": 4, "positive_percent": 53.3},
+    {"model": "onevla", "scope": "M", "n": 937, "mean_effect": 0.0330, "mean_decimals": 4, "positive_percent": 55.8},
+    {"model": "onevla", "scope": "CM", "n": 937, "mean_effect": -0.0739, "mean_decimals": 4, "positive_percent": 42.6},
+    {"model": "internvla_n1_cont", "scope": "C", "n": 528, "mean_effect": -0.00453, "mean_decimals": 5, "positive_percent": 58.7},
+    {"model": "internvla_n1_cont", "scope": "M", "n": 528, "mean_effect": 0.00300, "mean_decimals": 5, "positive_percent": 56.8},
+    {"model": "internvla_n1_cont", "scope": "CM", "n": 502, "mean_effect": -0.01430, "mean_decimals": 5, "positive_percent": 56.8},
+    {"model": "internvla_n1_disc", "scope": "C", "n": 339, "mean_effect": -0.00688, "mean_decimals": 5, "positive_percent": 8.0},
+    {"model": "internvla_n1_disc", "scope": "M", "n": 321, "mean_effect": -0.02596, "mean_decimals": 5, "positive_percent": 9.0},
+    {"model": "internvla_n1_disc", "scope": "CM", "n": 306, "mean_effect": -0.05392, "mean_decimals": 5, "positive_percent": 9.2},
+    {"model": "omnivla", "scope": "C", "n": 937, "mean_effect": 0.002415, "mean_decimals": 6, "positive_percent": 58.5},
+    {"model": "uni_navid", "scope": "C", "n": 937, "mean_effect": 0.0015, "mean_decimals": 4, "positive_percent": 51.9},
+    {"model": "uni_navid", "scope": "M", "n": 937, "mean_effect": -0.0136, "mean_decimals": 4, "positive_percent": 44.2},
+    {"model": "uni_navid", "scope": "CM", "n": 937, "mean_effect": -0.0126, "mean_decimals": 4, "positive_percent": 50.7},
+    {"model": "fantasyvln", "scope": "C", "n": 936, "mean_effect": 0.4886, "mean_decimals": 4, "positive_percent": 50.9},
+    {"model": "fantasyvln", "scope": "M", "n": 936, "mean_effect": 0.2777, "mean_decimals": 4, "positive_percent": 51.3},
+    {"model": "fantasyvln", "scope": "CM", "n": 936, "mean_effect": -0.1418, "mean_decimals": 4, "positive_percent": 47.5},
+    {"model": "streamvln", "scope": "C", "n": 937, "mean_effect": -0.0793, "mean_decimals": 4, "positive_percent": 44.4},
+    {"model": "streamvln", "scope": "M", "n": 937, "mean_effect": 0.0064, "mean_decimals": 4, "positive_percent": 50.3},
+    {"model": "streamvln", "scope": "CM", "n": 937, "mean_effect": -0.0876, "mean_decimals": 4, "positive_percent": 39.5},
+    {"model": "vamos", "scope": "C", "n": 937, "mean_effect": 0.00505, "mean_decimals": 5, "positive_percent": 54.6},
+    {"model": "tic_vla", "scope": "C", "n": 937, "mean_effect": -0.00482, "mean_decimals": 5, "positive_percent": 42.9},
+    {"model": "tic_vla", "scope": "M", "n": 937, "mean_effect": 0.01777, "mean_decimals": 5, "positive_percent": 56.7},
+    {"model": "tic_vla", "scope": "CM", "n": 937, "mean_effect": 0.01815, "mean_decimals": 5, "positive_percent": 54.5}
+  ]
+}
+

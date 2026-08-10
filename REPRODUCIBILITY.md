@@ -19,6 +19,7 @@ cross-model membership.
 - common action-diagnostic counts and rates;
 - registered `sub`-instruction, gradient-times-attention A-by-V point
   estimates for every available temporal scope;
+- registered model-native causal sample means and positive-effect fractions;
 - exact valid and abstention denominators;
 - the README model summary visualization.
 

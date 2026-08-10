@@ -7,6 +7,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from landmarkvln.causal import reproduce_causal
 from landmarkvln.frozen import reproduce
 
 
@@ -18,9 +19,11 @@ def main() -> None:
     root = args.root.resolve()
     output = args.output_dir or root / "artifacts/reproduced"
     summary = reproduce(root, output)
+    causal_rows = reproduce_causal(root, output)
     print(
         f"reproduced {len(summary['policy_summary'])} model summaries and "
-        f"{len(summary['registered_vxa'])} registered A-by-V cells in {output}"
+        f"{len(summary['registered_vxa'])} registered A-by-V cells, plus "
+        f"{len(causal_rows)} native causal rows in {output}"
     )
 
 
