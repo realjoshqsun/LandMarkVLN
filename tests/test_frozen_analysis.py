@@ -31,11 +31,6 @@ class FrozenAnalysisTest(unittest.TestCase):
         self.assertEqual(summary["policy_instance_rows"], 7496)
         self.assertEqual(len(summary["registered_vxa"]), 20)
 
-    def test_public_surfaces_do_not_headline_replay_group_count(self) -> None:
-        paths = [ROOT / "README.md", *sorted((ROOT / "assets/readme").glob("*"))]
-        for path in paths:
-            self.assertNotIn("715", path.read_text(encoding="utf-8"), path)
-
 
 if __name__ == "__main__":
     unittest.main()

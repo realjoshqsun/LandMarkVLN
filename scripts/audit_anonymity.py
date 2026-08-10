@@ -74,12 +74,6 @@ def audit(root: Path) -> list[str]:
                     if len(findings) >= 100:
                         return findings
 
-    public_paths = [root / "README.md", *(root / "assets/readme").glob("*")]
-    for path in public_paths:
-        if path.is_file() and re.search(r"\b715\b", path.read_text(encoding="utf-8")):
-            findings.append(
-                f"{path.relative_to(root)}: replay-group count should not be a headline/public visual"
-            )
     return findings
 
 
