@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="270" viewBox="0 0 1200 270" role="img" aria-labelledby="title desc">
+  <title id="title">LandMarkVLN reproducibility pipeline</title>
+  <desc id="desc">A fixed set of 937 analysis instances passes through eight native model interfaces, attribution and causal diagnostics, and reproducible tables and figures.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7f9fc"/>
+      <stop offset="1" stop-color="#eef4fb"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#486581"/>
+    </marker>
+    <style>
+      .box { fill: white; stroke: #9fb3c8; stroke-width: 2; rx: 14; }
+      .head { font: 700 21px system-ui, sans-serif; fill: #102a43; }
+      .body { font: 15px system-ui, sans-serif; fill: #486581; }
+      .count { font: 700 30px system-ui, sans-serif; fill: #1f5f99; }
+      .arrow { stroke: #486581; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect width="1200" height="270" rx="20" fill="url(#bg)"/>
+  <rect class="box" x="45" y="55" width="230" height="160"/>
+  <text class="count" x="160" y="103" text-anchor="middle">937</text>
+  <text class="head" x="160" y="137" text-anchor="middle">analysis instances</text>
+  <text class="body" x="160" y="169" text-anchor="middle">text + current view</text>
+  <text class="body" x="160" y="193" text-anchor="middle">+ verified history</text>
+
+  <path class="arrow" d="M285 135 H360"/>
+  <rect class="box" x="375" y="55" width="230" height="160"/>
+  <text class="count" x="490" y="103" text-anchor="middle">8</text>
+  <text class="head" x="490" y="137" text-anchor="middle">native interfaces</text>
+  <text class="body" x="490" y="169" text-anchor="middle">clean prediction</text>
+  <text class="body" x="490" y="193" text-anchor="middle">without action-space pooling</text>
+
+  <path class="arrow" d="M615 135 H690"/>
+  <rect class="box" x="705" y="30" width="210" height="92"/>
+  <text class="head" x="810" y="70" text-anchor="middle">Attribution</text>
+  <text class="body" x="810" y="96" text-anchor="middle">registered A-by-V</text>
+  <rect class="box" x="705" y="148" width="210" height="92"/>
+  <text class="head" x="810" y="188" text-anchor="middle">Intervention</text>
+  <text class="body" x="810" y="214" text-anchor="middle">target vs. control</text>
+
+  <path class="arrow" d="M925 76 H990 V113 H1015"/>
+  <path class="arrow" d="M925 194 H990 V157 H1015"/>
+  <rect class="box" x="1030" y="55" width="125" height="160"/>
+  <text class="head" x="1092" y="116" text-anchor="middle">Tables</text>
+  <text class="head" x="1092" y="148" text-anchor="middle">and</text>
+  <text class="head" x="1092" y="180" text-anchor="middle">figures</text>
+</svg>
+
