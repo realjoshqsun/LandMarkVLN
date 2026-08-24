@@ -1,4 +1,3 @@
-"""Portable analysis helpers for the LandMarkVLN review artifact."""
+"""CPU analysis helpers for the LandMarkVLN reproducibility release."""
 
-__version__ = "0.1.0"
-
+__version__ = "0.2.0"

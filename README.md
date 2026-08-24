@@ -1,90 +1,114 @@
 # LandMarkVLN
 
-Reproducibility artifact for auditing whether navigation VLA models localize
-and causally use the landmark named by an instruction.
+This repository reproduces the main LandMarkVLN analyses from analysis-ready,
+sample-level outputs for eight navigation VLA models. The complete path runs on
+CPU with Python, NumPy, and SciPy.
 
-![LandMarkVLN analysis pipeline](assets/readme/pipeline.svg)
+## Release scope
 
-## Frozen experiment
-
-| Component | Frozen scope |
+| Component | Count |
 |---|---:|
-| Analysis instances | 937 |
+| LandMarkVLN samples | 7,228 |
+| Source navigation trajectories | 4,025 |
 | Navigation VLA models | 8 |
-| Policy--instance records | 7,496 |
-| Attribution panels | 180 |
-| Registered causal scopes | 20 |
+| Model-sample rows | 57,824 |
+| VxA panels | 60 |
+| Matched intervention configurations | 23 |
+| Broad-response configurations | 23 |
+| Attribution-intervention correlations | 23 |
 
-The analysis-set membership was fixed before inspecting any evaluated-model
-output. All models process the same 937 instances, while retaining their native
-action representations and response metrics.
+The eight gzip files occupy about 77 MiB. Every model is evaluated on the same
+7,228-sample membership.
 
 ## Quick start
 
-Only Python 3.10 or newer is required for the frozen-output checks.
+Python 3.10 or newer is required.
 
 ```bash
-make verify
-make reproduce-analysis
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -e .
+
+make validate
+make test
+make quick
 ```
 
-These commands verify the frozen files, recompute the common action diagnostic
-and registered A-by-V and model-native causal point estimates, and regenerate
-the README summary:
+`make quick` runs the complete analysis grid with fewer resampling repetitions
+and writes results to `artifacts/reproduced/quick/`.
 
-![Common action diagnostic by model](assets/readme/model_overview.svg)
-
-The common action diagnostic is a local, horizon-matched agreement measure. It
-is not native closed-loop navigation success and must not be interpreted as a
-model leaderboard.
-
-To create the deterministic, history-free review archive:
+Run the paper-scale statistical protocol with:
 
 ```bash
-make artifact
+make reproduce
 ```
 
-The resulting ZIP is written under `dist/`. The builder uses an explicit
-allowlist, verifies frozen checksums, audits text and compressed content for
-identity-bearing paths or credentials, and records the archive checksum.
+Full results are written to `artifacts/reproduced/`. Run `make verify-paper` to execute the full protocol and check every published confidence interval and Monte Carlo value against `artifacts/frozen/paper_results.json`.
 
-## What is included
+## Reproduced analyses
 
-- Analysis-ready frozen outputs for all eight models.
-- Deterministic integrity and cross-model membership checks.
-- CPU-only reconstruction of registered A-by-V and model-native causal point
-  estimates.
-- Reproducible README visualizations generated from frozen outputs.
-- An anonymized supplementary-archive builder.
+| Output | Analysis |
+|---|---|
+| `policy_summary.csv` | Local action diagnostic for each of the eight models |
+| `vxa.csv` | 60 VxA panels across attention, gradient, and attention × gradient |
+| `matched_intervention.csv` | 23 matched landmark-versus-control effects |
+| `broad_response.csv` | 23 full-frame broad responses |
+| `attribution_intervention.csv` | 23 Spearman attribution-intervention associations |
+| `summary.json` | Complete machine-readable results and analysis settings |
 
-The full GPU inference environments, model weights, Matterport3D imagery, and
-upstream R2R/RxR assets are not redistributed. The model-specific runners and
-complete resampling pipeline are being admitted only after portability,
-licensing, and anonymity checks; see `PROVENANCE_INVENTORY.md` for the current
-boundary.
+VxA uses the landmark-bearing local instruction segment (`sub`). Temporal
+models expose current (`C`), memory (`M`), and combined (`CM`) scopes.
+Current-only models expose `C`, giving 20 model-scope combinations and 60
+panels across the three attribution estimators.
+
+All uncertainty resampling is grouped by `replay_id`, the source navigation
+trajectory. The full analysis uses:
+
+- 5,000 trajectory-group bootstrap repetitions for VxA risk differences;
+- 5,000 trajectory-group bootstrap repetitions and 10,000 trajectory sign
+  randomizations for matched effects;
+- 2,000 trajectory-group bootstrap repetitions for Spearman correlations.
+
+## Scientific interpretation
+
+`A` is a local, horizon-matched action diagnostic. It measures agreement with
+the local expert action criterion, not closed-loop navigation success or SPL.
+
+Matched causal effects retain each model's native response scale. Their signs
+and within-model uncertainty are comparable to the paper definitions; their
+raw magnitudes do not support cross-model ranking.
+
+Memory and combined scopes are structurally unavailable for current-only
+models. They are represented as not applicable, not as zero.
+
+Invalid, malformed, or abstained measurements are excluded by explicit adapter
+rules. They are not converted to negative detections or zero effects.
+
+## Release boundary
+
+This repository is the analysis-ready CPU reproduction path. It contains the
+sample-level model outputs and the code required to validate them and reproduce
+the paper analyses.
+
+GPU model inference uses upstream model repositories, checkpoints,
+Matterport3D imagery, and R2R/RxR assets. Obtain those resources from their
+original providers under their licenses and access terms; they are not
+redistributed in this repository.
 
 ## Repository layout
 
 ```text
-artifacts/frozen/       analysis-ready immutable inputs
-artifacts/reproduced/   locally regenerated summaries (not committed)
-assets/readme/          README visualizations
-configs/                registered analysis configuration
-scripts/                verification, analysis, visualization, archive tools
-tests/                  structural and numerical regression tests
+artifacts/frozen/models/   eight analysis-ready gzip JSONL files
+artifacts/frozen/paper_results.json  paper-value regression reference
+artifacts/reproduced/      generated CSV and JSON results
+landmarkvln/data.py        streaming readers and membership validation
+landmarkvln/metrics.py     explicit model-schema adapters
+landmarkvln/statistics.py  shared statistical procedures
+landmarkvln/analysis.py    complete 60/23/23/23 analysis grid
+scripts/                   command-line entry points
+tests/                     focused data, adapter, and numerical tests
 ```
 
-## Scientific boundaries
-
-- `A` is a common local action diagnostic, not episode success or SPL.
-- `V` is a registered matched-null attribution detection, not proof of causal
-  use and not human pixel ground truth.
-- Causal magnitudes stay in each model's native output units and are never
-  pooled or ranked across incompatible action spaces.
-- Current-only models have memory and combined scopes marked structural N/A,
-  never zero.
-- Uncertainty estimation groups observations that share a replay identity.
-
-See `REPRODUCIBILITY.md` for commands and `DATA_CARD.md` for data scope and
-limitations.
-
+See `REPRODUCIBILITY.md` for the full command sequence and `DATA_CARD.md` for
+dataset composition, fields, validity rules, and licensing.
