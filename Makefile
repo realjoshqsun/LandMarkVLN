@@ -1,24 +1,22 @@
 PYTHON ?= python3
-export PYTHONPATH := $(CURDIR)
 
-.PHONY: verify reproduce-analysis visualize audit-anonymity test artifact
+.PHONY: validate test quick reproduce verify-paper
 
-verify:
-	$(PYTHON) scripts/verify_frozen_outputs.py
-
-reproduce-analysis: verify
-	$(PYTHON) scripts/reproduce_analysis.py
-	$(PYTHON) scripts/render_readme_visuals.py
-
-visualize:
-	$(PYTHON) scripts/render_readme_visuals.py
-
-audit-anonymity:
-	$(PYTHON) scripts/audit_anonymity.py
+validate:
+	$(PYTHON) scripts/validate_data.py
 
 test:
 	$(PYTHON) -m unittest discover -s tests -v
 
-artifact: reproduce-analysis audit-anonymity test
-	$(PYTHON) scripts/build_anonymous_artifact.py
+quick:
+	$(PYTHON) scripts/run_analysis.py \
+		--output-dir artifacts/reproduced/quick \
+		--bootstrap-repetitions 10 \
+		--randomization-repetitions 20 \
+		--spearman-repetitions 10
 
+reproduce:
+	$(PYTHON) scripts/run_analysis.py
+
+verify-paper:
+	LANDMARKVLN_FULL_TEST=1 $(PYTHON) -m unittest discover -s tests -p 'test_paper_compatibility.py' -v

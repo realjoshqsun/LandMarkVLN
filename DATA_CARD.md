@@ -2,61 +2,135 @@
 
 ## Summary
 
-LandMarkVLN is a fixed diagnostic analysis set for studying instruction--vision
-alignment in vision-and-language navigation. The frozen release contains 937
-landmark-centered instances evaluated with eight navigation VLA models.
+LandMarkVLN is a diagnostic analysis set for studying whether navigation VLA
+models localize and causally use instruction-named landmarks.
+
+The release contains 7,228 samples from 4,025 source navigation trajectories.
+Eight models process the same membership, producing 57,824 model-sample rows.
+
+The evaluated models are OneVLA, InternVLA-N1, OmniVLA, Uni-NaVid,
+FantasyVLN, StreamVLN, VAMOS, and TIC-VLA.
+
+## Composition
+
+LandMarkVLN draws from the continuous-environment releases of R2R and
+English-language RxR.
+
+| Source split | Samples | Source trajectories |
+|---|---:|---:|
+| R2R train | 578 | 432 |
+| R2R val-seen | 37 | 27 |
+| R2R val-unseen | 111 | 77 |
+| RxR train | 5,044 | 2,700 |
+| RxR val-seen | 578 | 304 |
+| RxR val-unseen | 880 | 485 |
+| **Total** | **7,228** | **4,025** |
+
+Each sample connects:
+
+- a navigation instruction and landmark-bearing local instruction segment;
+- one singular physical landmark;
+- a current observation and recent observation history;
+- temporally aligned landmark masks;
+- a local expert-action horizon;
+- registered landmark and matched-control interventions.
+
+## Construction
+
+The construction pipeline proceeds through:
+
+1. text-only selection of singular, physical landmark referents;
+2. current-view grounding and geometric verification;
+3. temporal visibility resolution and same-instance verification;
+4. matched-control generation, deduplication, and integrity checks.
+
+FGR2R and Landmark-RxR provide fine-grained route supervision for the initial
+alignment. Evaluated-model outputs do not determine sample membership.
+
+## Released records
+
+The repository distributes eight gzip-compressed JSONL files, one per model.
+Together they occupy about 77 MiB.
+
+Each row contains analysis-ready measurements for one model and one shared
+LandMarkVLN sample. The principal fields are:
+
+| Field | Meaning |
+|---|---|
+| `probe_id` | Shared sample identifier used for cross-model membership |
+| `replay_id` | Source navigation trajectory used for grouped inference |
+| `task_index` | Stable row index from 0 through 7,227 |
+| `dataset`, `split` | R2R/RxR source and source split |
+| `A` | Local, horizon-matched action diagnostic |
+| `A_by_context` | Context-specific action diagnostic where required |
+| `A_horizon` | Local action-evaluation horizon metadata |
+| `axv.sub` | Local-instruction attribution results |
+| `causal` | Model-native matched and broad intervention responses |
+
+`axv.sub` contains attention-only, gradient-only, and attention × gradient
+estimators. Temporal models record current (`C`), memory (`M`), and combined
+(`CM`) scopes. OmniVLA and VAMOS record only the current scope.
+
+The causal schema preserves each model's native response family and units.
+InternVLA-N1 has separate continuous and discrete native branches.
+
+## Validity and missingness
+
+Validity is part of the measurement schema. Relevant indicators include
+`valid`, `parse_abstention`, `abstention_reason`, and model-native distance or
+branch-validity fields.
+
+The analysis applies these rules before constructing each denominator:
+
+- valid finite measurements contribute to the corresponding panel;
+- abstained or malformed attribution cells are excluded;
+- invalid native causal distances and unavailable branches are excluded;
+- invalid measurements are not converted to false detections or zero effects;
+- unavailable memory and combined scopes for current-only models are
+  structural not-applicable values.
+
+As a result, panel-specific valid counts can differ from 7,228.
 
 ## Intended uses
 
-- Audit whether a model's attribution concentrates on an instruction-named
-  landmark.
-- Compare attribution evidence with localized target-versus-control
-  interventions.
-- Study differences across current-view, memory, and combined temporal scopes
-  when those scopes exist in a model interface.
-- Reproduce the reported model-specific point estimates and statistical tests.
+The release supports reproduction of the 60 VxA analyses, 23 matched
+intervention analyses, 23 broad-response summaries, and 23
+attribution-intervention Spearman analyses. It also supports inspection of
+validity and temporal-scope behavior and alternative analyses that preserve the
+sample-level and trajectory grouping structure.
 
-## Out-of-scope uses
+## Interpretation
 
-- Estimating landmark prevalence in the complete R2R or RxR populations.
-- Treating automatic landmark masks as human pixel-level ground truth.
-- Ranking models by raw causal-effect magnitude across incompatible native
-  action spaces.
-- Treating the common action diagnostic as closed-loop success, SPL, or a
-  deployment-safety measure.
+`A` evaluates local action agreement over the registered horizon. It is not an
+episode-level success or SPL measure.
 
-## Source assets and redistribution
+`V` records whether target attribution mass passes the registered
+matched-translation diagnostic. Causal use is evaluated separately through
+interventions.
 
-The analysis derives from R2R/RxR navigation records and Matterport3D visual
-assets. Raw RGB scans, simulator assets, and model checkpoints are not
-redistributed here. Users must obtain upstream assets separately and comply
-with their licenses and access conditions.
+Causal effects remain in each model's native response units. Their direction
+and within-model uncertainty follow a common analysis protocol, while raw
+magnitudes do not define a cross-model leaderboard.
 
-The frozen model-output tables contain deterministic instance identifiers,
-dataset/split labels, registered attribution measurements, model-native causal
-responses, and replay identities used for grouped inference.
+LandMarkVLN is selected for resolvable, intervention-ready landmarks. Its rates
+do not estimate landmark prevalence in the complete R2R or RxR populations.
+Grounding and temporal verification are registered machine-generated
+measurements rather than human pixel annotation.
 
-## Construction summary
+## Source assets and licensing
 
-The construction pipeline applies text screening, current-view visual
-grounding, temporal same-instance verification, matched-control generation,
-deduplication, and final integrity checks. Evaluated-model outputs are not used
-to select analysis-set membership.
+Construction uses R2R, English-language RxR, FGR2R, Landmark-RxR, and
+Matterport3D resources. Model inference uses the evaluated models' upstream
+repositories and checkpoints.
 
-## Limitations
+The release contains analysis-ready numerical records. Obtain imagery,
+simulator assets, source datasets, model checkpoints, and GPU environments from
+their original providers under their licenses, access agreements, and usage
+terms.
 
-- The set is diagnostic rather than a prevalence sample.
-- Automatic open-source grounding consensus is not equivalent to human pixel
-  annotation.
-- Architectures expose different visual histories and action spaces.
-- A null registered attribution or causal result does not prove that a model
-  never uses the landmark.
-- Conclusions are bounded by the released checkpoints, decoding rules, source
-  datasets, and frozen analysis definitions.
+## Privacy
 
-## Versioning
-
-The review artifact is immutable and hash-bound. Any change to membership,
-model checkpoint, registered estimator, or causal outcome requires a new
-version rather than silent replacement.
-
+The released gzip records contain numerical diagnostics, dataset labels, and
+sample or trajectory identifiers. They contain no RGB frames and add no
+participant data or personal attributes. The underlying Matterport3D imagery
+remains governed by its original access and privacy conditions.
