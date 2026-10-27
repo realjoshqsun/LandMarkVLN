@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-"""Validate the shared analysis cohort in the eight compressed result files."""
-
 from __future__ import annotations
 
 import sys

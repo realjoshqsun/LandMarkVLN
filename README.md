@@ -1,8 +1,27 @@
 # LandMarkVLN
 
-This repository reproduces the main LandMarkVLN analyses from analysis-ready,
-sample-level outputs for eight navigation VLA models. The complete path runs on
-CPU with Python, NumPy, and SciPy.
+[![Project Homepage](https://img.shields.io/badge/Project-Homepage-245bc5?logo=googlechrome&logoColor=white)](https://realjoshqsun.github.io/landmark-vln/)
+[![WACV 2027](https://img.shields.io/badge/WACV-2027-334155)](https://realjoshqsun.github.io/landmark-vln/)
+
+Official repository for **Do Navigation VLA Models Ground What They Are Told?
+An Empirical Audit of Landmark-Vision Alignment in VLN**, accepted to
+**WACV 2027, Datasets Track**.
+
+**Josh Qixuan Sun, Xiaoying Xing, Yurun Chen, Huaiyuan Weng, Wentao Zhu, and Mark Crowley**
+
+LandMarkVLN studies whether navigation vision-language-action models localize
+and rely on the landmarks named in their instructions. Its 7,228-sample
+evaluation dataset connects instructions with current and historical
+observations, same-instance landmark masks, and local reference actions.
+The audit separates local action agreement, landmark localization through
+visual attribution, and landmark-specific output sensitivity through matched
+visual interventions.
+
+This release provides the **CPU analysis code and analysis-ready model
+measurements** used to reproduce the main paper analyses across eight navigation
+VLA models. It runs with Python, NumPy, and SciPy. Source imagery, raw dataset
+assets, model checkpoints, and GPU inference environments are obtained separately
+from their original providers; see [Release boundary](#release-boundary).
 
 ## Release scope
 
@@ -25,6 +44,8 @@ The eight gzip files occupy about 77 MiB. Every model is evaluated on the same
 Python 3.10 or newer is required.
 
 ```bash
+git clone https://github.com/realjoshqsun/LandMarkVLN.git
+cd LandMarkVLN
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
@@ -88,8 +109,10 @@ rules. They are not converted to negative detections or zero effects.
 ## Release boundary
 
 This repository is the analysis-ready CPU reproduction path. It contains the
-sample-level model outputs and the code required to validate them and reproduce
-the paper analyses.
+sample-level model measurements and the code required to validate them and
+reproduce the paper analyses. It does not include the raw LandMarkVLN input
+bundle, dataset-construction pipeline, or end-to-end GPU inference pipeline. RGB frames, instruction or
+landmark text, pixel masks, and full attribution maps are not distributed here.
 
 GPU model inference uses upstream model repositories, checkpoints,
 Matterport3D imagery, and R2R/RxR assets. Obtain those resources from their
@@ -112,3 +135,20 @@ tests/                     focused data, adapter, and numerical tests
 
 See `REPRODUCIBILITY.md` for the full command sequence and `DATA_CARD.md` for
 dataset composition, fields, validity rules, and licensing.
+
+## Citation
+
+```bibtex
+@inproceedings{sun2027landmark,
+  title = {Do Navigation VLA Models Ground What They Are Told? An Empirical Audit of Landmark-Vision Alignment in VLN},
+  author = {Josh Qixuan Sun and Xiaoying Xing and Yurun Chen and Huaiyuan Weng and Wentao Zhu and Mark Crowley},
+  booktitle = {Winter Conference on Applications of Computer Vision},
+  year = {2027}
+}
+```
+
+## License
+
+The analysis code is released under the [MIT License](LICENSE). Third-party
+source assets remain subject to their original licenses and access terms; see
+[Third-party notices](THIRD_PARTY_NOTICES.md) and the [data card](DATA_CARD.md).

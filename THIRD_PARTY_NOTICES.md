@@ -7,6 +7,6 @@ repositories.
 Users are responsible for obtaining those assets from their official sources
 and complying with the applicable licenses and access agreements. Original
 third-party notices and licenses must remain intact when upstream code is
-installed. Anonymization applies only to the identities of this submission's
-authors; it must not remove third-party attribution.
+installed. Preserve all third-party attribution when using upstream code or
+assets.
 

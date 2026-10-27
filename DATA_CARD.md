@@ -3,7 +3,8 @@
 ## Summary
 
 LandMarkVLN is a diagnostic analysis set for studying whether navigation VLA
-models localize and causally use instruction-named landmarks.
+models localize instruction-named landmarks and exhibit landmark-specific
+output sensitivity.
 
 The release contains 7,228 samples from 4,025 source navigation trajectories.
 Eight models process the same membership, producing 57,824 model-sample rows.
@@ -50,7 +51,9 @@ alignment. Evaluated-model outputs do not determine sample membership.
 ## Released records
 
 The repository distributes eight gzip-compressed JSONL files, one per model.
-Together they occupy about 77 MiB.
+Together they occupy about 77 MiB. These are diagnostic measurements rather
+than the raw visual-language dataset: instruction and landmark text, RGB
+frames, pixel masks, and full attribution maps are not included.
 
 Each row contains analysis-ready measurements for one model and one shared
 LandMarkVLN sample. The principal fields are:
@@ -105,8 +108,8 @@ sample-level and trajectory grouping structure.
 episode-level success or SPL measure.
 
 `V` records whether target attribution mass passes the registered
-matched-translation diagnostic. Causal use is evaluated separately through
-interventions.
+matched-translation diagnostic. Landmark-specific output sensitivity is
+evaluated separately through interventions.
 
 Causal effects remain in each model's native response units. Their direction
 and within-model uncertainty follow a common analysis protocol, while raw

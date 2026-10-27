@@ -142,7 +142,8 @@ applicable.
 
 The eight model outputs were produced with their native checkpoints, input
 formats, action decoders, and response metrics. This CPU path begins at the
-analysis-ready records.
+analysis-ready records. The GPU inference pipeline and raw visual or
+instruction assets are not included in this repository.
 
 Re-running model inference requires the corresponding GPU environments,
 upstream model weights, Matterport3D scans, and R2R/RxR resources. Obtain those

@@ -12,6 +12,11 @@ dependencies = [
   "scipy>=1.10",
 ]
 
+[project.urls]
+Homepage = "https://realjoshqsun.github.io/landmark-vln/"
+Repository = "https://github.com/realjoshqsun/LandMarkVLN"
+Documentation = "https://github.com/realjoshqsun/LandMarkVLN/blob/main/REPRODUCIBILITY.md"
+
 [tool.setuptools]
 packages = ["landmarkvln"]
 

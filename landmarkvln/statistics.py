@@ -28,8 +28,6 @@ Key = TypeVar("Key", bound=Hashable)
 
 @dataclass(frozen=True)
 class BootstrapEstimate:
-    """A point estimate and trajectory-bootstrap percentile interval."""
-
     estimate: float
     ci95: tuple[float, float]
     sample_count: int
@@ -56,8 +54,6 @@ class VxAResult:
 
 @dataclass(frozen=True)
 class RandomizationResult:
-    """One-sided trajectory-level Rademacher sign-randomization result."""
-
     observed_mean: float
     p_value: float
     sample_count: int
@@ -67,16 +63,12 @@ class RandomizationResult:
 
 @dataclass(frozen=True)
 class MatchedEffectResult:
-    """Matched mean effect with its interval and randomization test."""
-
     mean_effect: BootstrapEstimate
     sign_randomization: RandomizationResult
 
 
 @dataclass(frozen=True)
 class SpearmanResult:
-    """Spearman correlation with a trajectory-bootstrap interval."""
-
     rho: float
     two_sided_p: float
     ci95: tuple[float, float]

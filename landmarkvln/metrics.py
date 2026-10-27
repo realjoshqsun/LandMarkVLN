@@ -1,5 +1,3 @@
-"""Small, explicit adapters for the eight models' native result schemas."""
-
 from __future__ import annotations
 
 import math
@@ -64,8 +62,6 @@ BRANCH_SPECS: dict[str, tuple[dict[str, Any], ...]] = {
 
 
 def action_value(model: str, row: dict[str, Any], context: str = "sub") -> bool:
-    """Return the action diagnostic for one instruction context."""
-
     if context not in CONTEXTS:
         raise KeyError(f"unknown context: {context}")
     value = row["A_by_context"][context] if model == "fantasyvln" else row["A"]

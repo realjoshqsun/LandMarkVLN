@@ -1,5 +1,3 @@
-"""Reproduce the current paper tables from the frozen sample-level records."""
-
 from __future__ import annotations
 
 import csv
@@ -128,9 +126,8 @@ def _vxa_rows(
     output: list[dict[str, Any]] = []
 
     if model == "fantasyvln":
-        # FantasyVLN has context-specific parsing validity. Its registered
-        # analyzer therefore rebuilt the valid trajectory set for all 27
-        # panels before reaching the nine local-instruction panels.
+        # Context-specific validity requires per-panel trajectory sets; draw all
+        # contexts to preserve the paper's RNG sequence.
         for context in CONTEXTS:
             for estimator in ESTIMATORS:
                 for scope in MODEL_SPECS[model].scopes:
@@ -414,8 +411,7 @@ def _intervention_rows(
         paired_weights = draw_trajectory_weights(
             _trajectory_count(trajectories), bootstrap_repetitions, rng
         )
-        # The registered analyzer also drew a bootstrap for the broad response
-        # before running the primary sign test.
+        # Preserve the paper's RNG sequence before the primary sign test.
         draw_trajectory_weights(
             _trajectory_count(broad_trajectories), bootstrap_repetitions, rng
         )
@@ -568,8 +564,6 @@ def analyze(
     spearman_repetitions: int = DEFAULT_SPEARMAN_BOOTSTRAP_REPETITIONS,
     validate_inputs: bool = True,
 ) -> dict[str, Any]:
-    """Run all 60 VxA and 23 native intervention/association panels."""
-
     if validate_inputs:
         validate_all(root)
 
@@ -677,8 +671,6 @@ def _write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
 
 
 def write_results(output_dir: Path, results: dict[str, Any]) -> None:
-    """Write a machine-readable summary and five paper-facing CSV files."""
-
     output_dir.mkdir(parents=True, exist_ok=True)
     with (output_dir / "summary.json").open("w", encoding="utf-8") as handle:
         json.dump(results, handle, indent=2, sort_keys=True)
@@ -702,8 +694,6 @@ def reproduce(
     spearman_repetitions: int = DEFAULT_SPEARMAN_BOOTSTRAP_REPETITIONS,
     validate_inputs: bool = True,
 ) -> dict[str, Any]:
-    """Analyze the frozen records and write all reproduced outputs."""
-
     results = analyze(
         root,
         bootstrap_repetitions=bootstrap_repetitions,

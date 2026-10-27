@@ -1,5 +1,3 @@
-"""Regression checks against the values reported in the current paper."""
-
 from __future__ import annotations
 
 import json

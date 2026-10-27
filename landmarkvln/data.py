@@ -1,5 +1,3 @@
-"""Read and validate the frozen sample-level analysis records."""
-
 from __future__ import annotations
 
 import gzip
@@ -17,8 +15,6 @@ TRAJECTORIES_PER_MODEL = 4_025
 
 @dataclass(frozen=True)
 class ModelSpec:
-    """Human-readable metadata and the frozen file for one policy."""
-
     display_name: str
     scopes: tuple[str, ...]
     relative_path: str
@@ -70,8 +66,6 @@ MODEL_SPECS: dict[str, ModelSpec] = {
 
 @dataclass(frozen=True)
 class ValidationResult:
-    """Identifiers collected while validating one policy's records."""
-
     model: str
     rows: int
     probe_ids: frozenset[str]
@@ -79,8 +73,6 @@ class ValidationResult:
 
 
 def model_path(root: Path, model: str) -> Path:
-    """Return the frozen JSONL path for ``model`` below ``root``."""
-
     try:
         relative_path = MODEL_SPECS[model].relative_path
     except KeyError:
@@ -89,8 +81,6 @@ def model_path(root: Path, model: str) -> Path:
 
 
 def iter_gzip_jsonl(path: Path) -> Iterator[dict[str, Any]]:
-    """Yield objects from a gzip-compressed JSON Lines file."""
-
     with gzip.open(path, "rt", encoding="utf-8") as handle:
         for line_number, line in enumerate(handle, start=1):
             try:
@@ -103,8 +93,6 @@ def iter_gzip_jsonl(path: Path) -> Iterator[dict[str, Any]]:
 
 
 def iter_model_rows(root: Path, model: str) -> Iterator[dict[str, Any]]:
-    """Stream all frozen records for one model."""
-
     path = model_path(root, model)
     if not path.is_file():
         raise FileNotFoundError(path)
@@ -112,8 +100,6 @@ def iter_model_rows(root: Path, model: str) -> Iterator[dict[str, Any]]:
 
 
 def validate_model(root: Path, model: str) -> ValidationResult:
-    """Validate row count and sample identifiers for one model."""
-
     probe_ids: set[str] = set()
     replay_ids: set[str] = set()
     task_indices: set[int] = set()
@@ -154,8 +140,6 @@ def validate_model(root: Path, model: str) -> ValidationResult:
 
 
 def validate_all(root: Path) -> list[ValidationResult]:
-    """Validate the eight files and their shared sample membership."""
-
     results = [validate_model(root, model) for model in MODEL_SPECS]
     reference = results[0].probe_ids
     for result in results:

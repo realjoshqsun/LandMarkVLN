@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-"""Run the complete CPU analysis over the frozen model outputs."""
-
 from __future__ import annotations
 
 import argparse
