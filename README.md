@@ -7,7 +7,7 @@ Official repository for **Do Navigation VLA Models Ground What They Are Told?
 An Empirical Audit of Landmark-Vision Alignment in VLN**, accepted to
 **WACV 2027, Datasets Track**.
 
-**Josh Qixuan Sun, Xiaoying Xing, Yurun Chen, Huaiyuan Weng, Wentao Zhu, and Mark Crowley**
+**Josh Qixuan Sun, [Xiaoying Xing](https://sites.google.com/view/xiaoyingxing/home), [Yurun Chen](https://euron-zc.github.io/), [Huaiyuan Weng](https://scholar.google.com/citations?user=e1hV8IgAAAAJ&hl=en), [Wentao Zhu](https://wentao.live/), and Mark Crowley**
 
 LandMarkVLN studies whether navigation vision-language-action models localize
 and rely on the landmarks named in their instructions. Its 7,228-sample
